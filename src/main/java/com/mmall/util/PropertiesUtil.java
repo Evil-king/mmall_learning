@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 import java.util.Properties;
 
 /**
- * Created by geely
+ * properties文件读取工具
  */
 public class PropertiesUtil {
 
