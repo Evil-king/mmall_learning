@@ -46,7 +46,7 @@ public class CookieUtil {
     }
 
 
-    public void delToken(HttpServletRequest request,HttpServletResponse response){
+    public static void delToken(HttpServletRequest request,HttpServletResponse response){
         Cookie[] cks = request.getCookies();
         if(cks != null){
             for(Cookie ck : cks){
