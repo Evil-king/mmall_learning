@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 public class CookieUtil {
     private static final String COOKIE_DOMAIN = ".fox.com";
 
-    private static final String COOKIE_NAME = "token";
+    private static final String COOKIE_NAME = "mmall_login_token";
 
     public static String readLoginToken(HttpServletRequest request) {
         Cookie[] cks = request.getCookies();
