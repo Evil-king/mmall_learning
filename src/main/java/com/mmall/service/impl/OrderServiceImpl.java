@@ -23,8 +23,10 @@ import com.mmall.util.BigDecimalUtil;
 import com.mmall.util.FTPUtil;
 import com.mmall.util.PropertiesUtil;
 import com.mmall.vo.*;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
 
+@Slf4j
 @Service
 public class OrderServiceImpl implements OrderService{
 
@@ -475,6 +478,29 @@ public class OrderServiceImpl implements OrderService{
         return ServerResponse.createByErrorMessage("订单不存在");
     }
 
+    @Override
+    public void closeOrder(int hour) {
+        Date closeDateTime = DateUtils.addDays(new Date(), -hour);
+        List<Order> orderList = orderMapper.selectOrderStatusByCreateTime(Const.OrderStatusEnum.NO_PAY.getCode(),DateTimeUtil.dateToStr(closeDateTime));
+        for(Order order :orderList){
+            List<OrderItem> orderItems = orderItemMapper.getByOrderNo(order.getOrderNo());
+            for(OrderItem orderItem :orderItems){
+                Integer stock = productMapper.selectStockByProductId(orderItem.getProductId());
+
+                if(stock == null){
+                    continue;
+                }
+
+                //把扣除的库存加回去
+                Product product = new Product();
+                product.setId(orderItem.getProductId());
+                product.setStock(stock+orderItem.getQuantity());
+                productMapper.updateByPrimaryKeySelective(product);
+            }
+            orderMapper.closeOrderByOrderId(order.getId());
+            log.info("关闭订单OrderNo:{}",order.getOrderNo());
+        }
+    }
 
 
     /**

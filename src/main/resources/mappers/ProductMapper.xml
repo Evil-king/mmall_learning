@@ -199,7 +199,7 @@
       </if>
     </where>
   </select>
-  
+
   <select id="selectByNameAndCategoryIds" resultMap="BaseResultMap" parameterType="map">
     SELECT
     <include refid="Base_Column_List"></include>
@@ -214,6 +214,14 @@
         #{item}
       </foreach>
     </if>
+  </select>
+
+  <select id="selectStockByProductId" parameterType="int" resultType="java.lang.Integer">
+    select
+    stock
+    from mmall_product
+    where id = #{id}
+    for update
   </select>
 
 </mapper>
