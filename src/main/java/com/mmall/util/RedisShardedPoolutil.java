@@ -9,6 +9,9 @@ import redis.clients.jedis.ShardedJedis;
 /**
  * @author hwq
  * @date 2019/04/23
+ * <p>
+ *     分布式redisShardedPool
+ * </p>
  */
 @Slf4j
 public class RedisShardedPoolutil {

@@ -30,7 +30,7 @@
     </filter>
     <filter-mapping>
         <filter-name>sessionExpireFilter</filter-name>
-        <url-pattern>.do</url-pattern>
+        <url-pattern>*.do</url-pattern>
     </filter-mapping>
 
     <listener>
