@@ -39,11 +39,6 @@ public class UserSpringSessionController {
     @ResponseBody
     public ServerResponse<User> login(String username, String password, HttpSession session, HttpServletResponse httpServletResponse){
 
-        //测试全局异常
-        int i = 0;
-        int j = 666/i;
-
-
         ServerResponse<User> response = iUserService.login(username,password);
         if(response.isSuccess()){
 
